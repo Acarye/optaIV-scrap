@@ -183,16 +183,36 @@ const howLongUrl = 'https://howlongtobeat.com/';
 
 const initHowLongToBeat = async (inputFile) => {
     console.log('initHowLongToBeat');
-    const games = await csv().fromFile(`./src/input/${inputFile}.csv`);
+    let games = await csv().fromFile(`./src/input/${inputFile}.csv`);
     let newGamesInfo = [];
+    let newGamesInfoCount = 0;
+    try {
+        const file = await csv().fromFile(`./src/output/howLongToBeat.csv`);
+        newGamesInfoCount = file.length;
+    } catch (e) {
+        console.log('No cuentas con un archivo existente.');
+    }
+
+
     let browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
     });
     let page = await browser.newPage();
+
+    await page.setUserAgent(
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36 Edg/100.0.1185.50',
+    );
+    await page.setExtraHTTPHeaders({
+        'Accept-Language': 'es-419,es;q=0.9,es-ES;q=0.8,en;q=0.7,en-GB;q=0.6,en-US;q=0.5',
+    });
+
+
     await page.goto(howLongUrl);
     let counter = 0;
 
-    for (const game of games.slice(4900)) {
+    if (games.length !== 0) games = games.slice(newGamesInfoCount);
+
+    for (const game of games) {
         const {exact, mainStory, portrait, description} = await scrapHowLongToBeat(page, game);
         newGamesInfo.push({
             ...game,
@@ -207,9 +227,15 @@ const initHowLongToBeat = async (inputFile) => {
         if (counter % 200 === 0) {
             await browser.close();
             browser = await puppeteer.launch({
-                headless: false,
+                headless: true,
             });
             page = await browser.newPage();
+            await page.setUserAgent(
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36 Edg/100.0.1185.50',
+            );
+            await page.setExtraHTTPHeaders({
+                'Accept-Language': 'es-419,es;q=0.9,es-ES;q=0.8,en;q=0.7,en-GB;q=0.6,en-US;q=0.5',
+            });
             await page.goto(howLongUrl);
         }
         counter++;
