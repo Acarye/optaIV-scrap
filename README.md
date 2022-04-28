@@ -24,8 +24,8 @@ El proyecto consta de dos datasets generados a traves de web scraping, siendo co
 para luego ser tomado como dataset de entrada y generar una busqueda de cada fila en [HowLongToBeat](https://howlongtobeat.com/) y traer la informacion correspondiente a su duracion estimada en completar un juego.
 
 ### Proposito
-Teniendo en cuenta el contexto y los datasets generados, es esperado que con la infomracion obtenida sea capaz de generar un analisis apartir de los datos obtenidos,
-logrando asi tener posibilades de analisis de si un juego es mas popular que otro en base al precio, o incluso el tiempo que le tomaria en completarlo afectaria el tiempo medio
+Teniendo en cuenta el contexto y los datasets generados, es esperado que con la informacion obtenida sea capaz de generar un analisis apartir de los datos obtenidos,
+logrando asi tener posibilidades de analisis de si un juego es mas popular que otro en base al precio, o incluso el tiempo que le tomaria en completarlo afectaria el tiempo medio
 que estaria un jugador en el juego.
 
 
